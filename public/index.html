@@ -1,32 +1,61 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>G'day, World3!</title>
-	</head>
-	<body>
-		<h1 id="heading"></h1>
-		<p>This page comes from a static asset stored at `public/index.html` as configured in `wrangler.jsonc`.</p>
-		<button id="button" type="button">Fetch a random UUID</button>
-		<output id="random" for="button"></output>
-		<script>
-			fetch('/message')
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>TTT</title>
+	<link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+	<h1 id="heading"></h1>
+	<p>This page comes from a static asset stored at `public/index.html` as configured in `wrangler.jsonc`.</p>
+	<button id="button" type="button">Fetch a random UUID</button>
+	<output id="random" for="button"></output>
+
+	<table>
+		<tr>
+			<td id="1" onclick="play('1')">1</td>
+			<td id="2" onclick="play('2')">1</td>
+			<td id="3" onclick="play('3')">1</td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<td>5</td>
+			<td>6</td>
+		</tr>
+		<tr>
+			<td>7</td>
+			<td>8</td>
+			<td>9</td>
+		</tr>
+	</table>
+
+	<script>
+		fetch('/message')
+			.then((resp) => resp.text())
+			.then((text) => {
+				const h1 = document.getElementById('heading');
+				h1.textContent = text;
+			});
+
+		const button = document.getElementById("button");
+		button.addEventListener("click", () => {
+			fetch('/random')
 				.then((resp) => resp.text())
 				.then((text) => {
-					const h1 = document.getElementById('heading');
-					h1.textContent = text;
+					const random = document.getElementById('random');
+					random.textContent = text;
 				});
+		});
+	</script>
 
-			const button = document.getElementById("button");
-			button.addEventListener("click", () => {
-				fetch('/random')
-					.then((resp) => resp.text())
-					.then((text) => {
-						const random = document.getElementById('random');
-						random.textContent = text;
-					});
-			});
-		</script>
-	</body>
+	<script>
+		function play(cell) {
+			alert(`clicked cell: ${cell}` );
+		}
+	</script>
+</body>
+
 </html>
