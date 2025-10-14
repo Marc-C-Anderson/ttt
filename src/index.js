@@ -13,9 +13,7 @@ export default {
 		const url = new URL(request.url);
 		switch (url.pathname) {
 			case '/message':
-				return new Response(`G'day, World!`);
-			case '/random':
-				return new Response(crypto.randomUUID());
+				return new Response(`Hello from TTT Worker!`);
 			default:
 				return new Response('Not Found', { status: 404 });
 		}

@@ -1,4 +1,12 @@
 table, td {
     border-collapse: collapse;
-    border: 2px solid black;
+    border: 1px solid black;
+}
+
+td {
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
 }

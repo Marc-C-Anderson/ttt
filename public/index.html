@@ -10,27 +10,26 @@
 
 <body>
 	<h1 id="heading"></h1>
-	<p>This page comes from a static asset stored at `public/index.html` as configured in `wrangler.jsonc`.</p>
-	<button id="button" type="button">Fetch a random UUID</button>
-	<output id="random" for="button"></output>
 
 	<table id="myTable">
 		<tr>
-			<td id="1">1</td>
-			<td id="2">1</td>
-			<td id="3">1</td>
+			<td id="1"></td>
+			<td id="2"></td>
+			<td id="3"></td>
 		</tr>
 		<tr>
-			<td id="4">1</td>
-			<td id="5">1</td>
-			<td id="6">1</td>
+			<td id="4"></td>
+			<td id="5"></td>
+			<td id="6"></td>
 		</tr>
 		<tr>
-			<td id="7">1</td>
-			<td id="8">1</td>
-			<td id="9">1</td>
+			<td id="7"></td>
+			<td id="8"></td>
+			<td id="9"></td>
 		</tr>
 	</table>
+
+	<output id="outputId" for="myTable"></output>
 
 	<script>
 		fetch('/message')
@@ -40,21 +39,18 @@
 				h1.textContent = text;
 			});
 
-		const button = document.getElementById("button");
-		button.addEventListener("click", () => {
-			fetch('/random')
-				.then((resp) => resp.text())
-				.then((text) => {
-					const random = document.getElementById('random');
-					random.textContent = text;
-				});
-		});
-
 		document.getElementById('myTable').addEventListener('click', function (event) {
 			// Check if the element clicked (event.target) is a <td> element
 			if (event.target.tagName === 'TD') {
 				const tdId = event.target.id;
-				console.log('The ID of the clicked TD is:', tdId); // e.g., "data-3"
+				const cell = document.getElementById(tdId);
+				if (cell.textContent !== '') {
+					// Cell is already filled, do nothing
+					return;
+				}
+				cell.textContent = 'X'; // Change the content of the clicked cell to 'X'
+				const output = document.getElementById('outputId');
+				output.textContent = `You clicked on cell with ID: ${tdId}`; // Display the ID in the output element
 			}
 		});
 
