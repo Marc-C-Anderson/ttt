@@ -14,7 +14,7 @@
 	<button id="button" type="button">Fetch a random UUID</button>
 	<output id="random" for="button"></output>
 
-	<table>
+	<table id = "myTable">
 		<tr>
 			<td id="1" onclick="play('1')">1</td>
 			<td id="2" onclick="play('2')">1</td>
@@ -49,6 +49,18 @@
 					random.textContent = text;
 				});
 		});
+
+document.getElementById('myTable').addEventListener('click', function(event) {
+  // Check if the element clicked (event.target) is a <td> element
+  if (event.target.tagName === 'TD') {
+    const tdId = event.target.id;
+    console.log('The ID of the clicked TD is:', tdId); // e.g., "data-3"
+  }
+});
+
+
+
+
 	</script>
 
 	<script>
