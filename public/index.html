@@ -48,9 +48,16 @@
 					// Cell is already filled, do nothing
 					return;
 				}
+let str = ''
+for (let i = 1; i <= 9; i++) {
+  const el = document.getElementById (i)
+  const ch = cell.textContent
+  str += ch
+}
 				cell.textContent = 'X'; // Change the content of the clicked cell to 'X'
 				const output = document.getElementById('outputId');
 				output.textContent = `You clicked on cell with ID: ${tdId}`; // Display the ID in the output element
+output.textContent = `"${str}"`
 			}
 		});
 
