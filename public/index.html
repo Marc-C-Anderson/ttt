@@ -28,9 +28,8 @@
 			<td id="9"></td>
 		</tr>
 	</table>
-
-	<output id="outputId" for="myTable"></output>
-
+	<output id="outputId" for="myTable"></output><br />
+	<button id="resetButton">Reset</button>
 	<script>
 		fetch('/message')
 			.then((resp) => resp.text())
@@ -48,19 +47,27 @@
 					// Cell is already filled, do nothing
 					return;
 				}
+				console.debug(`You clicked on cell with ID: ${tdId}`)
+				cell.textContent = 'X'; // Change the content of the clicked cell to 'X'
 				let str = ''
 				for (let i = 1; i <= 9; i++) {
 					const el = document.getElementById(i)
 					const ch = el.textContent
 					str += ch === '' ? '-' : ch
 				}
-				cell.textContent = 'X'; // Change the content of the clicked cell to 'X'
 				const output = document.getElementById('outputId');
-				output.textContent = `You clicked on cell with ID: ${tdId}`; // Display the ID in the output element
 				output.textContent = `"${str}"`
 			}
 		});
 
+		document.getElementById('resetButton').addEventListener('click', function () {
+			for (let i = 1; i <= 9; i++) {
+				const el = document.getElementById(i)
+				el.textContent = ''
+			}
+			const output = document.getElementById('outputId');
+			output.textContent = ''
+		});
 	</script>
 </body>
 
