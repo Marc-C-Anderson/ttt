@@ -24,5 +24,24 @@ export default {
 
 const play = (request) => {
   // Here you can implement the logic for handling the /play endpoint
-  return new Response('your turn')
+  if (request.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } })
+  }
+
+  const contentType = request.headers.get('content-type') || ''
+
+  const parseBody = () => {
+    if (contentType.includes('application/json')) return request.json()
+    if (contentType.includes('application/x-www-form-urlencoded')) {
+      return request.formData().then(fd => Object.fromEntries(fd))
+    }
+    return request.text()
+  }
+
+  return parseBody()
+    .then(body => new Response(JSON.stringify({ ok: true, received: body }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    }))
+    .catch(() => new Response('Bad Request', { status: 400 }))
 }
