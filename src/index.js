@@ -9,13 +9,20 @@
  */
 
 export default {
-	async fetch(request, env, ctx) {
-		const url = new URL(request.url);
-		switch (url.pathname) {
-			case '/message':
-				return new Response(`Hello from TTT Worker!`);
-			default:
-				return new Response('Not Found', { status: 404 });
-		}
-	},
-};
+  async fetch (request, env, ctx) {
+    const url = new URL(request.url)
+    switch (url.pathname) {
+      case '/message':
+        return new Response('Hello from TTT Worker!')
+      case '/play':
+        return play(request)
+      default:
+        return new Response('Not Found', { status: 404 })
+    }
+  }
+}
+
+const play = (request) => {
+  // Here you can implement the logic for handling the /play endpoint
+  return new Response('your turn')
+}
