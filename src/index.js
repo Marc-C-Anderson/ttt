@@ -28,9 +28,8 @@ const play = (request) => {
     return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } })
   }
 
-  const contentType = request.headers.get('content-type') || ''
-
   const parseBody = () => {
+    const contentType = request.headers.get('content-type') || ''
     if (contentType.includes('application/json')) return request.json()
     if (contentType.includes('application/x-www-form-urlencoded')) {
       return request.formData().then(fd => Object.fromEntries(fd))

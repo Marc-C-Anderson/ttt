@@ -54,7 +54,8 @@ describe('Play', () => {
       const response = await worker.fetch(postRequest, env, ctx)
       // Wait for all `Promise`s passed to `ctx.waitUntil()` to settle before running test assertions
       await waitOnExecutionContext(ctx)
-      expect(await response.text()).toMatchInlineSnapshot('"{"ok":true,"received":{"move":"rock"}}"')
+      const json = await response.json()
+      expect(json).toEqual({ ok: true, received: { move: 'rock' } })
     })
 
     it('responds with "{"ok":true,"received":{"move":"rock"}}" (integration style)', async () => {
@@ -64,7 +65,8 @@ describe('Play', () => {
         body: JSON.stringify({ move: 'rock' }) // adjust payload as needed
       })
       const response = await SELF.fetch(postRequest)
-      expect(await response.text()).toMatchInlineSnapshot('"{"ok":true,"received":{"move":"rock"}}"')
+      const json = await response.json()
+      expect(json).toEqual({ ok: true, received: { move: 'rock' } })
     })
   })
 })
