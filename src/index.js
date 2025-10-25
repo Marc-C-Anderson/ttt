@@ -22,25 +22,16 @@ export default {
   }
 }
 
-const play = (request) => {
+const play = async (request) => {
   // Here you can implement the logic for handling the /play endpoint
   if (request.method !== 'POST') {
     return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } })
   }
-
-  const parseBody = () => {
-    const contentType = request.headers.get('content-type') || ''
-    if (contentType.includes('application/json')) return request.json()
-    if (contentType.includes('application/x-www-form-urlencoded')) {
-      return request.formData().then(fd => Object.fromEntries(fd))
-    }
-    return request.text()
+  const contentType = request.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) {
+    return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } })
   }
-
-  return parseBody()
-    .then(body => new Response(JSON.stringify({ ok: true, received: body }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    }))
-    .catch(() => new Response('Bad Request', { status: 400 }))
+  // hereafter we are actioning a POST of json
+  console.debug('request: ', await request.json())
+  return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { 'Content-Type': 'application/json' } })
 }

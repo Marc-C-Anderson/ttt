@@ -13,23 +13,28 @@
 
 	<table id="myTable">
 		<tr>
-			<td id="1"></td>
-			<td id="2"></td>
-			<td id="3"></td>
+			<td id="cell-1"></td>
+			<td id="cell-2"></td>
+			<td id="cell-3"></td>
 		</tr>
 		<tr>
-			<td id="4"></td>
-			<td id="5"></td>
-			<td id="6"></td>
+			<td id="cell-4"></td>
+			<td id="cell-5"></td>
+			<td id="cell-6"></td>
 		</tr>
 		<tr>
-			<td id="7"></td>
-			<td id="8"></td>
-			<td id="9"></td>
+			<td id="cell-7"></td>
+			<td id="cell-8"></td>
+			<td id="cell-9"></td>
 		</tr>
 	</table>
-	<output id="outputId" for="myTable"></output><br />
-	<button id="resetButton">Reset</button>
+
+
+	<button id="machineButton">Machine first</button>
+	<button id="humanButton">Human first</button><br>
+
+	<button id="resetButton">Start again</button><br>
+	<output id="outputId" for="myTable"></output>
 	<script>
 		fetch('/message')
 			.then((resp) => resp.text())
@@ -51,18 +56,24 @@
 				cell.textContent = 'X'; // Change the content of the clicked cell to 'X'
 				let str = ''
 				for (let i = 1; i <= 9; i++) {
-					const el = document.getElementById(i)
+					const el = document.getElementById('cell-'+i)
 					const ch = el.textContent
 					str += ch === '' ? '-' : ch
 				}
 				const output = document.getElementById('outputId');
 				output.textContent = `"${str}"`
+				fetch('/play', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ state: str })
+				}).then(resp => resp.text())
+					.then(text => console.debug('POST /play response:', text))
+					.catch(err => console.error('POST /play error:', err));
 			}
 		});
-
 		document.getElementById('resetButton').addEventListener('click', function () {
 			for (let i = 1; i <= 9; i++) {
-				const el = document.getElementById(i)
+				const el = document.getElementById('cell-'+i)
 				el.textContent = ''
 			}
 			const output = document.getElementById('outputId');
