@@ -1,16 +1,21 @@
 {
 	"name": "ttt",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
-		"test": "vitest"
+		"test": "vitest",
+		"lint": "standard",
+		"lint:fix": "standard --fix"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "^0.8.19",
-		"vitest": "~3.2.0",
-		"wrangler": "^4.42.2"
+		"standard": "^17.1.2",
+		"vitest": "~3.2.0"
+	},
+	"dependencies": {
+		"wrangler": "^4.43.0"
 	}
 }
