@@ -42,31 +42,33 @@ describe('Play', () => {
   })
 
   describe('POST request for /play', () => {
-    it('/ responds with "{"ok":true,"received":{"move":"rock"}}" (unit style)', async () => {
+    it('/ responds with "{ newState: "----O----" }" (unit style)', async () => {
       // Create an empty context to pass to `worker.fetch()`.
       const ctx = createExecutionContext()
       // create a POST request based on the existing `request`
+      const oldState = { oldState: '--------' }
       const postRequest = new Request('http://example.com/play', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ move: 'rock' }) // adjust payload as needed
+        body: JSON.stringify(oldState)
       })
       const response = await worker.fetch(postRequest, env, ctx)
       // Wait for all `Promise`s passed to `ctx.waitUntil()` to settle before running test assertions
       await waitOnExecutionContext(ctx)
       const json = await response.json()
-      expect(json).toEqual({ ok: true, received: { move: 'rock' } })
+      expect(json).toEqual({ newState: '----O----' })
     })
 
-    it('responds with "{"ok":true,"received":{"move":"rock"}}" (integration style)', async () => {
+    it('responds with "{ newState: "----O----" }" (integration style)', async () => {
+      const oldState = { oldState: '--------' }
       const postRequest = new Request('http://example.com/play', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ move: 'rock' }) // adjust payload as needed
+        body: JSON.stringify(oldState)
       })
       const response = await SELF.fetch(postRequest)
       const json = await response.json()
-      expect(json).toEqual({ ok: true, received: { move: 'rock' } })
+      expect(json).toEqual({ newState: '----O----' })
     })
   })
 })

@@ -32,6 +32,7 @@ const play = async (request) => {
     return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } })
   }
   // hereafter we are actioning a POST of json
-  console.debug('request: ', await request.json())
-  return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+  const oldState = await request.json();
+  console.debug('oldState: ', oldState)
+  return new Response(JSON.stringify({ newState: '----O----' }), { status: 200, headers: { 'Content-Type': 'application/json' } })
 }
