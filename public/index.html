@@ -10,7 +10,6 @@
 
 <body>
 	<h1 id="heading"></h1>
-
 	<table id="myTable">
 		<tr>
 			<td id="cell-1"></td>
@@ -28,11 +27,7 @@
 			<td id="cell-9"></td>
 		</tr>
 	</table>
-
-
 	<button id="machineButton">Machine first</button>
-	<button id="humanButton">Human first</button><br>
-
 	<button id="resetButton">Start again</button><br>
 	<output id="outputId" for="myTable"></output>
 	<script>
@@ -43,9 +38,11 @@
 				h1.textContent = text;
 			});
 
+		const machineBtn = document.getElementById('machineButton')
 		document.getElementById('myTable').addEventListener('click', function (event) {
 			// Check if the element clicked (event.target) is a <td> element
 			if (event.target.tagName === 'TD') {
+				machineBtn.disabled = true
 				const tdId = event.target.id;
 				const cell = document.getElementById(tdId);
 				if (cell.textContent !== '') {
@@ -56,7 +53,7 @@
 				cell.textContent = 'X'; // Change the content of the clicked cell to 'X'
 				let str = ''
 				for (let i = 1; i <= 9; i++) {
-					const el = document.getElementById('cell-'+i)
+					const el = document.getElementById('cell-' + i)
 					const ch = el.textContent
 					str += ch === '' ? '-' : ch
 				}
@@ -65,19 +62,33 @@
 				fetch('/play', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ state: str })
-				}).then(resp => resp.text())
-					.then(text => console.debug('POST /play response:', text))
-					.catch(err => console.error('POST /play error:', err));
+					body: JSON.stringify({ oldState: str })
+				}).then(resp => resp.json())
+					.then(text => console.debug('POST /play text: ', text))
+					.catch(err => console.error('POST /play err: ', err));
 			}
 		});
+
+		machineBtn.addEventListener('click', async function () {
+			const str = '---------'
+			fetch('/play', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ oldState: str })
+			}).then(resp => resp.json())
+				.then(text => console.debug('POST /play text: ', text))
+				.catch(err => console.error('POST /play err: ', err));
+			this.disabled = true
+		});
+
 		document.getElementById('resetButton').addEventListener('click', function () {
 			for (let i = 1; i <= 9; i++) {
-				const el = document.getElementById('cell-'+i)
+				const el = document.getElementById('cell-' + i)
 				el.textContent = ''
 			}
 			const output = document.getElementById('outputId');
 			output.textContent = ''
+			machineBtn.disabled = false
 		});
 	</script>
 </body>
