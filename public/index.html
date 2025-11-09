@@ -6,30 +6,48 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>TTT</title>
 	<link rel="stylesheet" href="/styles.css" />
+
+	<style>
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			/* 3 equal columns */
+			grid-template-rows: repeat(3, 1fr);
+			/* 3 equal rows */
+			gap: 10px;
+			/* optional spacing between items */
+			width: 300px;
+			height: 300px;
+		}
+
+		.grid>button {
+			background: #ccc;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 24px;
+		}
+	</style>
+
 </head>
 
 <body>
 	<h1 id="heading"></h1>
-	<table id="myTable">
-		<tr>
-			<td id="cell-1"></td>
-			<td id="cell-2"></td>
-			<td id="cell-3"></td>
-		</tr>
-		<tr>
-			<td id="cell-4"></td>
-			<td id="cell-5"></td>
-			<td id="cell-6"></td>
-		</tr>
-		<tr>
-			<td id="cell-7"></td>
-			<td id="cell-8"></td>
-			<td id="cell-9"></td>
-		</tr>
-	</table>
+
+	<div class="grid" id="myGrid">
+		<button>1</button><button>2</button><button>3</button>
+		<button>4</button><button>5</button><button>6</button>
+		<button>7</button><button>8</button><button>9</button>
+	</div>
+
 	<button id="machineButton">Machine first</button>
 	<button id="resetButton">Start again</button><br>
-	<output id="outputId" for="myTable"></output>
+	<output id="outputId" for="myGrid"></output>
+
+
+
+
+
 	<script>
 		fetch('/message')
 			.then((resp) => resp.text())
@@ -39,9 +57,9 @@
 			});
 
 		const machineBtn = document.getElementById('machineButton')
-		document.getElementById('myTable').addEventListener('click', function (event) {
+		document.getElementById('myGrid').addEventListener('click', function (event) {
 			// Check if the element clicked (event.target) is a <td> element
-			if (event.target.tagName === 'TD') {
+			if (event.target.tagName === 'button') {
 				machineBtn.disabled = true
 				const tdId = event.target.id;
 				const cell = document.getElementById(tdId);
