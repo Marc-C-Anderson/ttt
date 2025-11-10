@@ -22,6 +22,11 @@ export default {
   }
 }
 
+/**
+ * Respond to the /play request
+ * @param {*} request
+ * @returns {*} the response
+ */
 const play = async (request) => {
   // Here you can implement the logic for handling the /play endpoint
   if (request.method !== 'POST') {
@@ -32,7 +37,19 @@ const play = async (request) => {
     return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } })
   }
   // hereafter we are actioning a POST of json
-  const oldState = await request.json();
-  console.debug('oldState: ', oldState)
-  return new Response(JSON.stringify({ newState: '----O----' }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+  const oldState = await request.json()
+  const newState = newMove(oldState.oldState)
+  return new Response(JSON.stringify({ newState }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+}
+
+/**
+ * Calculate a new move
+ * @param {string} oldState The current state
+ * @returns {string} the new state
+ */
+const newMove = oldState => {
+  console.debug('oldState:', oldState)
+  const newState = '----O----'
+  console.debug('newState:', newState)
+  return newState
 }

@@ -4,44 +4,36 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="expert system plays tic tac toe.">
 	<title>TTT</title>
 	<link rel="stylesheet" href="/styles.css" />
 </head>
 
 <body>
 	<h1 id="heading"></h1>
-	<table id="myTable">
-		<tr>
-			<td id="cell-1"></td>
-			<td id="cell-2"></td>
-			<td id="cell-3"></td>
-		</tr>
-		<tr>
-			<td id="cell-4"></td>
-			<td id="cell-5"></td>
-			<td id="cell-6"></td>
-		</tr>
-		<tr>
-			<td id="cell-7"></td>
-			<td id="cell-8"></td>
-			<td id="cell-9"></td>
-		</tr>
-	</table>
+	<div class="grid" id="myGrid">
+		<button id="cell-1"></button><button id="cell-2"></button><button id="cell-3"></button>
+		<button id="cell-4"></button><button id="cell-5"></button><button id="cell-6"></button>
+		<button id="cell-7"></button><button id="cell-8"></button><button id="cell-9"></button>
+	</div>
 	<button id="machineButton">Machine first</button>
 	<button id="resetButton">Start again</button><br>
-	<output id="outputId" for="myTable"></output>
+	<output id="outputId" for="myGrid"></output>
+
 	<script>
 		fetch('/message')
 			.then((resp) => resp.text())
 			.then((text) => {
 				const h1 = document.getElementById('heading');
 				h1.textContent = text;
-			});
+			})
+			.catch(error => console.error('fetch error:', error));
 
 		const machineBtn = document.getElementById('machineButton')
-		document.getElementById('myTable').addEventListener('click', function (event) {
-			// Check if the element clicked (event.target) is a <td> element
-			if (event.target.tagName === 'TD') {
+		document.getElementById('myGrid').addEventListener('click', function (event) {
+			console.debug('click:', event.target)
+			// Check if the element clicked (event.target) is a <button> element
+			if (event.target.nodeName === 'BUTTON') {
 				machineBtn.disabled = true
 				const tdId = event.target.id;
 				const cell = document.getElementById(tdId);
