@@ -1,12 +1,19 @@
-table, td {
-    border-collapse: collapse;
-    border: 1px solid black;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 equal columns */
+    grid-template-rows: repeat(3, 1fr);
+    /* 3 equal rows */
+    gap: 10px;
+    /* optional spacing between items */
+    width: 300px;
+    height: 300px;
 }
 
-td {
-    width: 2em;
-    height: 2em;
-    text-align: center;
+.grid>button {
+    background: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 24px;
-    cursor: pointer;
 }

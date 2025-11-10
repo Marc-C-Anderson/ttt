@@ -4,49 +4,21 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="expert system plays tic tac toe.">
 	<title>TTT</title>
 	<link rel="stylesheet" href="/styles.css" />
-
-	<style>
-		.grid {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			/* 3 equal columns */
-			grid-template-rows: repeat(3, 1fr);
-			/* 3 equal rows */
-			gap: 10px;
-			/* optional spacing between items */
-			width: 300px;
-			height: 300px;
-		}
-
-		.grid>button {
-			background: #ccc;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 24px;
-		}
-	</style>
-
 </head>
 
 <body>
 	<h1 id="heading"></h1>
-
 	<div class="grid" id="myGrid">
-		<button>1</button><button>2</button><button>3</button>
-		<button>4</button><button>5</button><button>6</button>
-		<button>7</button><button>8</button><button>9</button>
+		<button id="cell-1"></button><button id="cell-2"></button><button id="cell-3"></button>
+		<button id="cell-4"></button><button id="cell-5"></button><button id="cell-6"></button>
+		<button id="cell-7"></button><button id="cell-8"></button><button id="cell-9"></button>
 	</div>
-
 	<button id="machineButton">Machine first</button>
 	<button id="resetButton">Start again</button><br>
 	<output id="outputId" for="myGrid"></output>
-
-
-
-
 
 	<script>
 		fetch('/message')
@@ -54,12 +26,14 @@
 			.then((text) => {
 				const h1 = document.getElementById('heading');
 				h1.textContent = text;
-			});
+			})
+			.catch(error => console.error('fetch error:', error));
 
 		const machineBtn = document.getElementById('machineButton')
 		document.getElementById('myGrid').addEventListener('click', function (event) {
-			// Check if the element clicked (event.target) is a <td> element
-			if (event.target.tagName === 'button') {
+			console.debug('click:', event.target)
+			// Check if the element clicked (event.target) is a <button> element
+			if (event.target.nodeName === 'BUTTON') {
 				machineBtn.disabled = true
 				const tdId = event.target.id;
 				const cell = document.getElementById(tdId);
